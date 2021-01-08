@@ -16,6 +16,16 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
+Route.route('/', () => {
   return { greeting: 'Hello world in JSON' }
-})
+}, ['GET', 'POST', 'PUT', 'DELETE'])
+
+Route.get('sodas', 'SodaController.index')
+
+Route.get('sodas/:id', 'SodaController.find')
+
+Route.post('sodas', 'SodaController.store')
+
+Route.put('sodas/:id', 'SodaController.edit')
+
+Route.delete('sodas/:id', 'SodaController.delete')
