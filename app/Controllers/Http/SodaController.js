@@ -29,7 +29,7 @@ class SodaController {
     }
     const validation = await validate(req, rules)
     if(validation.fails()){
-      return response.status(404).json({"message" : validation.messages()})
+      return response.status(422).json({"message" : validation.messages()})
     }
     const soda = new Soda()
     soda.name = req.name
@@ -37,7 +37,7 @@ class SodaController {
     soda.calories = req.cal || 0
     soda.is_dietetic = req.isd || false
     await soda.save()
-    return response.json(soda)
+    return response.status(201).json(soda)
   }
 
   async edit({request, response, params}){
@@ -55,7 +55,7 @@ class SodaController {
     if(req.name){
       const exists = await Soda.findBy('name', req.name)
       if(exists && req.name != soda.name){
-        return response.status(400).json({"message" : "This soda is already registered"})
+        return response.status(422).json({"message" : "This soda is already registered"})
       }
     }
     const validation = await validate(req, rules)
@@ -76,7 +76,7 @@ class SodaController {
       return response.status(404).json({"message" : "Invalid ID. This soda does not exists."})
     }
     await soda.delete()
-    return response.status(200).json({"message" : "Soda deleted succesfully!"})
+    return response.json({"message" : "Soda deleted succesfully!"})
   }
 
 }
