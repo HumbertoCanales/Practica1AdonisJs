@@ -47,9 +47,16 @@ class SodaController {
     }
     const req = request.all()
     const rules = {
-      name : 'unique:sodas,name|max:40|accepted',
+      name : 'max:40|accepted',
       flavor : 'max:80|accepted',
-      cal : 'range:0,1000'
+      cal : 'range:0,1000',
+      isd: 'boolean'
+    }
+    if(req.name){
+      const exists = await Soda.findBy('name', req.name)
+      if(exists && req.name != soda.name){
+        return response.status(400).json({"message" : "This soda is already registered"})
+      }
     }
     const validation = await validate(req, rules)
     if(validation.fails()){

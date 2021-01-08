@@ -22,7 +22,7 @@ Route.route('/', () => {
 
 Route.get('sodas', 'SodaController.index')
 
-Route.get('sodas/:id', 'SodaController.find')
+Route.get('sodas/:id', 'SodaController.find').middleware('search')
 
 Route.post('sodas', 'SodaController.store')
 
